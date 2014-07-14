@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13E28" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="History" representedClassName="History" syncable="YES">
+        <attribute name="timeViewed" optional="YES" attributeType="Date" syncable="YES"/>
+        <relationship name="hasPhotos" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Photo" inverseName="lastViewed" inverseEntity="Photo" syncable="YES"/>
+    </entity>
+    <entity name="Location" representedClassName="Location" syncable="YES">
+        <attribute name="locationName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pictureQty" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="hasPhotosof" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Photo" inverseName="ofLocation" inverseEntity="Photo" syncable="YES"/>
+        <relationship name="isInRegion" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Region" inverseName="hasLocations" inverseEntity="Region" syncable="YES"/>
+    </entity>
+    <entity name="Photo" representedClassName="Photo" syncable="YES">
+        <attribute name="photoID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="thumbnail" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="lastViewed" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="History" inverseName="hasPhotos" inverseEntity="History" syncable="YES"/>
+        <relationship name="ofLocation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Location" inverseName="hasPhotosof" inverseEntity="Location" syncable="YES"/>
+        <relationship name="takenBy" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Photographer" inverseName="tookPhotos" inverseEntity="Photographer" syncable="YES"/>
+    </entity>
+    <entity name="Photographer" representedClassName="Photographer" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="tookPhotos" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Photo" inverseName="takenBy" inverseEntity="Photo" syncable="YES"/>
+    </entity>
+    <entity name="Region" representedClassName="Region" syncable="YES">
+        <attribute name="countOfPictures" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="regionName" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="hasLocations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Location" inverseName="isInRegion" inverseEntity="Location" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="History" positionX="-227" positionY="-36" width="128" height="73"/>
+        <element name="Location" positionX="-234" positionY="126" width="128" height="103"/>
+        <element name="Photo" positionX="-47" positionY="81" width="128" height="133"/>
+        <element name="Photographer" positionX="142" positionY="144" width="128" height="73"/>
+        <element name="Region" positionX="-423" positionY="135" width="128" height="88"/>
+    </elements>
+</model>

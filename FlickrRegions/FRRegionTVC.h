@@ -1,5 +1,5 @@
 //
-//  FRAppDelegate.h
+//  FRRegionTVC.h
 //  FlickrRegions
 //
 //  Created by Chip Cox on 7/13/14.
@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FRAppDelegate : UIResponder <UIApplicationDelegate>
-
-@property (strong, nonatomic) UIWindow *window;
+@interface FRRegionTVC : UITableViewController
+@property (nonatomic,strong) UIManagedDocument *document;
 @end

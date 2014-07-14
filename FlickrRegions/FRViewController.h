@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface FRViewController : UIViewController
+@property (nonatomic,strong) UIManagedDocument *document;
+@property (nonatomic,strong) NSURL *url;
+@property (nonatomic) BOOL doneAddingData;
 
 @end
