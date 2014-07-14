@@ -5,6 +5,7 @@
         <relationship name="hasPhotos" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Photo" inverseName="lastViewed" inverseEntity="Photo" syncable="YES"/>
     </entity>
     <entity name="Location" representedClassName="Location" syncable="YES">
+        <attribute name="locationID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="locationName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="pictureQty" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <relationship name="hasPhotosof" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Photo" inverseName="ofLocation" inverseEntity="Photo" syncable="YES"/>
@@ -29,7 +30,7 @@
     </entity>
     <elements>
         <element name="History" positionX="-227" positionY="-36" width="128" height="73"/>
-        <element name="Location" positionX="-234" positionY="126" width="128" height="103"/>
+        <element name="Location" positionX="-234" positionY="126" width="128" height="118"/>
         <element name="Photo" positionX="-47" positionY="81" width="128" height="133"/>
         <element name="Photographer" positionX="142" positionY="144" width="128" height="73"/>
         <element name="Region" positionX="-423" positionY="135" width="128" height="88"/>

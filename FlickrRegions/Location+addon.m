@@ -26,6 +26,7 @@
         location =[NSEntityDescription insertNewObjectForEntityForName:@"Location" inManagedObjectContext:context];
         location.locationName =lName;
         location.pictureQty=[NSNumber numberWithInteger:[[d objectForKey:FLICKR_PLACE_PHOTO_COUNT] intValue]];
+        location.locationID=[d objectForKey:FLICKR_PLACE_ID];
         NSLog(@"Location %@ has been added",lName);
         location.isInRegion=[Region addRegion:d onDocument:doc];
         

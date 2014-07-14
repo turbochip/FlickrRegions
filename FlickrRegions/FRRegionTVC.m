@@ -8,10 +8,17 @@
 
 #import "FRRegionTVC.h"
 #import "Region.h"
+#import "Location.h"
+#import "Photo.h"
+#import "Photo+addon.h"
 #import "FRViewController.h"
+#import "FRPhotoTVC.h"
+#import "FlickrFetcher.h"
 
 @interface FRRegionTVC ()
 @property (nonatomic,strong) NSMutableArray *regions;
+@property (nonatomic,strong) NSString *regionName;
+@property (nonatomic,strong) NSMutableArray *photos;
 @end
 
 @implementation FRRegionTVC
@@ -43,6 +50,7 @@
     } else {
         self.regions=[regionResults mutableCopy];
     }
+    self.tableView.delegate=self;
 }
 
 - (void)didReceiveMemoryWarning
@@ -79,46 +87,13 @@
     return cell;
 }
 
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+    Region *reg=[self.regions objectAtIndex:indexPath.row];
+    self.regionName=reg.regionName;
+    return indexPath;
 }
-*/
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -126,7 +101,62 @@
 {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    if([segue.destinationViewController isKindOfClass:[FRPhotoTVC class]]){
+        [self fetchPhotos:self.document];
+        FRPhotoTVC *photoSegue=[segue destinationViewController];
+        photoSegue.document=self.document;
+        photoSegue.regionName=self.regionName;
+    }
 }
-*/
+
+- (void) fetchPhotos:(UIManagedDocument *)doc
+{
+    NSLog(@"In fetchPhotos");
+    // Execute query for all location id's in the given area.
+    NSManagedObjectContext *context=self.document.managedObjectContext;
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Region"];
+//    request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"regionName" ascending:YES]];
+    request.predicate=[NSPredicate predicateWithFormat:@"regionName=%@",self.regionName];
+    NSError *error;
+    NSArray *regionResults = [context executeFetchRequest:request error:&error];
+    if((!regionResults) || (regionResults.count==0))
+    {
+        NSLog(@"Region %@ not found",self.regionName);
+    } else {
+        Region *rr=[regionResults objectAtIndex:0];
+        for(Location *loc in rr.hasLocations) {
+            NSLog(@"Location=%@",loc.locationName );
+            NSURL *url=[FlickrFetcher URLforPhotosInPlace:loc.locationID maxResults:100];
+            dispatch_queue_t fetchQ=dispatch_queue_create("flickr fetcher", NULL) ;
+            dispatch_async(fetchQ,^{
+                NSLog(@"in Queue about to query flickr");
+                NSData *jsonResults = [NSData dataWithContentsOfURL:url];
+                NSDictionary *photoResults = [NSJSONSerialization JSONObjectWithData:jsonResults options:0 error:NULL];
+                self.photos=[[photoResults valueForKeyPath:FLICKR_RESULTS_PHOTOS] mutableCopy];
+                NSLog(@"About to go through photos %@",self.photos);
+                for(NSDictionary *p in self.photos) {
+                    NSLog(@"Photo=%@",[p objectForKey:FLICKR_PHOTO_TITLE]);
+                    [Photo addPhoto:p onDocument:self.document];
+                }
+                
+/*
+                NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Region"];
+                request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"regionName" ascending:YES]];
+                NSError *error;
+                NSArray *regionResults = [context executeFetchRequest:request error:&error];
+                if((!regionResults) || (regionResults.count==0))
+                {
+                    NSLog(@"Error %@",error);
+                } else {
+                    for(Region *reg in regionResults)
+                        [Region updateNumberOfPicturesInRegion:reg.regionName onDocument:self.document];
+                }
+                [self stopSpinner];
+                self.doneAddingData=YES;
+ */
+            });
+        }
+    }
+}
 
 @end

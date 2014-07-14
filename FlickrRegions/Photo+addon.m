@@ -16,9 +16,10 @@
 {
     NSManagedObjectContext *context=doc.managedObjectContext;
     NSString *pID=[d valueForKey:FLICKR_PHOTO_ID];
+    NSLog(@"Photo-id=%@",pID);
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Photo"];
-    request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"url" ascending:YES]];
-    request.predicate=[NSPredicate predicateWithFormat:@"url=%@",pID];
+    request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"photoID" ascending:YES]];
+    request.predicate=[NSPredicate predicateWithFormat:@"photoID=%@",pID];
     NSError *error;
     NSArray *pIDResults = [context executeFetchRequest:request error:&error];
     if((!pIDResults) || (pIDResults.count==0)) {

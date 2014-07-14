@@ -82,17 +82,17 @@
         // start using document
         NSLog(@"Document is in Normal State");
         // setup queue to do flickr fetches and load database.
-        [self fetchPhotos: self.document];
+        [self fetchAreas: self.document];
     } else {
         NSLog(@"Docuemnt is not in Normal State");
     }
     [self stopSpinner];
 }
 
-- (void) fetchPhotos:(UIManagedDocument *)doc
+- (void) fetchAreas:(UIManagedDocument *)doc
 {
     self.doneAddingData=NO;
-    NSLog(@"In fetchPhotos");
+    NSLog(@"In fetchAreas");
     NSURL *url= [FlickrFetcher URLforTopPlaces];
     dispatch_queue_t fetchQ=dispatch_queue_create("flickr fetcher", NULL);
     dispatch_async(fetchQ,^{
