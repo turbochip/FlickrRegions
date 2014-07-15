@@ -7,6 +7,7 @@
 //
 
 #import "FRViewController.h"
+#import "FRExtras.h"
 #import "Flickr Fetcher/FlickrFetcher.h"
 #import "Location.h"
 #import "Location+addon.h"
@@ -30,9 +31,9 @@
         if(_doneAddingData) {
             [self.document saveToURL:self.url forSaveOperation:UIDocumentSaveForOverwriting completionHandler:^(BOOL success) {
                 if(success)
-                    NSLog(@"Document saved");
+                    CCLog(@"Document saved");
                 else
-                    NSLog(@"Couldn't create document %@",self.url);
+                    CCLog(@"Couldn't create document %@",self.url);
             }];
         }
     });
@@ -45,7 +46,8 @@
     
     // in here we are going to setup our database if it doesn't exist
     // then we will kickoff a thread to bring in our flickrdata and populate our tables.
-    NSLog(@"In View Did load, about to start spinner");
+    CCLog(@"In View Did load, about to start spinner");
+
     [self startSpinner];
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSURL *documentsDirectory =[[fileManager URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] firstObject];
@@ -55,7 +57,7 @@
     // Setup my document here
     self.document = [[UIManagedDocument alloc] initWithFileURL:self.url];
     // print out the url path just for fun.
-    NSLog(@"url=%@ \n filePathURL=%@",[self.url path], [self.url pathComponents]);
+    CCLog(@"url=%@ \n filePathURL=%@",[self.url path], [self.url pathComponents]);
     
     
     BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:[self.url path]];
@@ -69,7 +71,7 @@
             if(success)
                 [self documentIsReady];
             else
-                NSLog(@"Couldn't create document %@",self.url);
+                CCLog(@"Couldn't create document %@",self.url);
         }];
     }
     
@@ -80,11 +82,11 @@
 {
     if (self.document.documentState == UIDocumentStateNormal) {
         // start using document
-        NSLog(@"Document is in Normal State");
+        CCLog(@"Document is in Normal State");
         // setup queue to do flickr fetches and load database.
         [self fetchAreas: self.document];
     } else {
-        NSLog(@"Docuemnt is not in Normal State");
+        CCLog(@"Docuemnt is not in Normal State");
     }
     [self stopSpinner];
 }
@@ -92,16 +94,16 @@
 - (void) fetchAreas:(UIManagedDocument *)doc
 {
     self.doneAddingData=NO;
-    NSLog(@"In fetchAreas");
+    CCLog(@"In fetchAreas");
     NSURL *url= [FlickrFetcher URLforTopPlaces];
     dispatch_queue_t fetchQ=dispatch_queue_create("flickr fetcher", NULL);
     dispatch_async(fetchQ,^{
         [self startSpinner];
-        NSLog(@"in Queue about to query flickr");
+        CCLog(@"in Queue about to query flickr");
         NSData *jsonResults = [NSData dataWithContentsOfURL:url];
         NSDictionary *propertyListResults = [NSJSONSerialization JSONObjectWithData:jsonResults options:0 error:NULL];
         self.flickrLocations=[propertyListResults valueForKeyPath:FLICKR_RESULTS_PLACES];
-        NSLog(@"About to go through locations");
+        CCLog(@"About to go through locations");
         for(NSDictionary *d in self.flickrLocations) {
             [Location addLocation:d onDocument:doc];
         }
@@ -115,7 +117,7 @@
         NSArray *regionResults = [context executeFetchRequest:request error:&error];
         if((!regionResults) || (regionResults.count==0))
         {
-            NSLog(@"Error %@",error);
+            CCLog(@"Error %@",error);
         } else {
             for(Region *reg in regionResults)
                 [Region updateNumberOfPicturesInRegion:reg.regionName onDocument:self.document];
@@ -135,7 +137,7 @@
     self.spinnerCount++;
     if(![self.spinner isAnimating]){
         [self.spinner startAnimating];
-        NSLog(@"Starting Spinner spinnerCount=%d",self.spinnerCount);
+        CCLog(@"Starting Spinner spinnerCount=%d",self.spinnerCount);
     }
 }
 
@@ -146,7 +148,7 @@
         self.spinnerCount=0;
     if(([self.spinner isAnimating]) && (self.spinnerCount==0)) {
         [self.spinner stopAnimating];
-        NSLog(@"Stopping Spinner spinnerCount=%d",self.spinnerCount);
+        CCLog(@"Stopping Spinner spinnerCount=%d",self.spinnerCount);
     }
     [self.view setNeedsDisplay];
 }

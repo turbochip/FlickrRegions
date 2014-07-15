@@ -17,6 +17,8 @@
     Location *location;
     NSManagedObjectContext *context=doc.managedObjectContext;
     NSString *lName=[d valueForKey:FLICKR_PLACE_WOE_NAME];
+    CCLog(@"lName=%@",lName);
+    //CCLog(@"d=%@",d);
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Location"];
     request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"locationName" ascending:YES]];
     request.predicate=[NSPredicate predicateWithFormat:@"locationName=%@",lName];
@@ -27,14 +29,28 @@
         location.locationName =lName;
         location.pictureQty=[NSNumber numberWithInteger:[[d objectForKey:FLICKR_PLACE_PHOTO_COUNT] intValue]];
         location.locationID=[d objectForKey:FLICKR_PLACE_ID];
-        NSLog(@"Location %@ has been added",lName);
+        CCLog(@"Location %@ has been added",lName);
         location.isInRegion=[Region addRegion:d onDocument:doc];
         
     } else {
-        NSLog(@"Location %@ already exists",lName);
+        CCLog(@"Location %@ already exists",lName);
         return locationResults[0];
     }
     return location;
+}
+
++(Location *)getLocation:(NSString *)locationID onDocument:(UIManagedDocument *)doc
+{
+    NSManagedObjectContext *context=doc.managedObjectContext;
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Location"];
+    request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"locationName" ascending:YES]];
+    request.predicate=[NSPredicate predicateWithFormat:@"locationID=%@",locationID];
+    CCLog(@"locationID=%@",locationID);
+    NSError *error;
+    NSArray *locationResults = [context executeFetchRequest:request error:&error];
+    //CCLog(@"locationResults=%@",[locationResults objectAtIndex:0]);
+
+    return [locationResults objectAtIndex:0];
 }
 
 @end

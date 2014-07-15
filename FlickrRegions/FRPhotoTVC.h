@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FRExtras.h"
 
 @interface FRPhotoTVC : UITableViewController
 @property (nonatomic,strong) UIManagedDocument *document;

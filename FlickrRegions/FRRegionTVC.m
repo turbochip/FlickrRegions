@@ -5,7 +5,7 @@
 //  Created by Chip Cox on 7/13/14.
 //  Copyright (c) 2014 Home. All rights reserved.
 //
-
+#import "FRExtras.h"
 #import "FRRegionTVC.h"
 #import "Region.h"
 #import "Location.h"
@@ -46,7 +46,7 @@
     NSArray *regionResults = [context executeFetchRequest:request error:&error];
     if((!regionResults) || (regionResults.count==0))
     {
-        NSLog(@"Error no regions found %@",error);
+        CCLog(@"Error no regions found %@",error);
     } else {
         self.regions=[regionResults mutableCopy];
     }
@@ -91,6 +91,7 @@
 {
     Region *reg=[self.regions objectAtIndex:indexPath.row];
     self.regionName=reg.regionName;
+    CCLog(@"region %@ was selected now go prepare for segue",self.regionName);
     return indexPath;
 }
 
@@ -111,31 +112,28 @@
 
 - (void) fetchPhotos:(UIManagedDocument *)doc
 {
-    NSLog(@"In fetchPhotos");
+    CCLog(@"In fetchPhotos");
     // Execute query for all location id's in the given area.
     NSManagedObjectContext *context=self.document.managedObjectContext;
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Region"];
-//    request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"regionName" ascending:YES]];
     request.predicate=[NSPredicate predicateWithFormat:@"regionName=%@",self.regionName];
     NSError *error;
     NSArray *regionResults = [context executeFetchRequest:request error:&error];
     if((!regionResults) || (regionResults.count==0))
     {
-        NSLog(@"Region %@ not found",self.regionName);
+        CCLog(@"Region %@ not found",self.regionName);
     } else {
         Region *rr=[regionResults objectAtIndex:0];
         for(Location *loc in rr.hasLocations) {
-            NSLog(@"Location=%@",loc.locationName );
+            CCLog(@"Location=%@",loc.locationName );
             NSURL *url=[FlickrFetcher URLforPhotosInPlace:loc.locationID maxResults:100];
-            dispatch_queue_t fetchQ=dispatch_queue_create("flickr fetcher", NULL) ;
-            dispatch_async(fetchQ,^{
-                NSLog(@"in Queue about to query flickr");
+                CCLog(@"in Queue (not really) about to query flickr");
                 NSData *jsonResults = [NSData dataWithContentsOfURL:url];
                 NSDictionary *photoResults = [NSJSONSerialization JSONObjectWithData:jsonResults options:0 error:NULL];
                 self.photos=[[photoResults valueForKeyPath:FLICKR_RESULTS_PHOTOS] mutableCopy];
-                NSLog(@"About to go through photos %@",self.photos);
+                //CCLog(@"About to go through photos %@",self.photos);
                 for(NSDictionary *p in self.photos) {
-                    NSLog(@"Photo=%@",[p objectForKey:FLICKR_PHOTO_TITLE]);
+                    CCLog(@"Photo=%@",[p objectForKey:FLICKR_PHOTO_TITLE]);
                     [Photo addPhoto:p onDocument:self.document];
                 }
                 
@@ -146,7 +144,7 @@
                 NSArray *regionResults = [context executeFetchRequest:request error:&error];
                 if((!regionResults) || (regionResults.count==0))
                 {
-                    NSLog(@"Error %@",error);
+                    CCLog(@"Error %@",error);
                 } else {
                     for(Region *reg in regionResults)
                         [Region updateNumberOfPicturesInRegion:reg.regionName onDocument:self.document];
@@ -154,7 +152,7 @@
                 [self stopSpinner];
                 self.doneAddingData=YES;
  */
-            });
+
         }
     }
 }

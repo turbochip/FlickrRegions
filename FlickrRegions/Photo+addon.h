@@ -7,6 +7,7 @@
 //
 
 #import "Photo.h"
+#import "FRExtras.h"
 
 @interface Photo (addon)
 

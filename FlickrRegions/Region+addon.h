@@ -7,6 +7,7 @@
 //
 
 #import "Region.h"
+#import "FRExtras.h"
 
 @interface Region (addon)
 +(Region *) addRegion:(NSDictionary *)d onDocument:(UIManagedDocument *) doc;

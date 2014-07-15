@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F12C27821974A63B00DB6E3E /* FRExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = F12C27811974A63B00DB6E3E /* FRExtras.m */; };
 		F158E5461972D6AF00EC40E1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F158E5451972D6AF00EC40E1 /* Foundation.framework */; };
 		F158E5481972D6AF00EC40E1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F158E5471972D6AF00EC40E1 /* CoreGraphics.framework */; };
 		F158E54A1972D6AF00EC40E1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F158E5491972D6AF00EC40E1 /* UIKit.framework */; };
@@ -51,6 +52,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F12C27801974A63B00DB6E3E /* FRExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRExtras.h; sourceTree = "<group>"; };
+		F12C27811974A63B00DB6E3E /* FRExtras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRExtras.m; sourceTree = "<group>"; };
 		F158E5421972D6AF00EC40E1 /* FlickrRegions.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlickrRegions.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F158E5451972D6AF00EC40E1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F158E5471972D6AF00EC40E1 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -199,6 +202,8 @@
 				F158E5EE197378CD00EC40E1 /* FRRegionTVC.m */,
 				F1B806B31974066C0086B9C2 /* FRPhotoTVC.h */,
 				F1B806B41974066C0086B9C2 /* FRPhotoTVC.m */,
+				F12C27801974A63B00DB6E3E /* FRExtras.h */,
+				F12C27811974A63B00DB6E3E /* FRExtras.m */,
 			);
 			path = FlickrRegions;
 			sourceTree = "<group>";
@@ -354,6 +359,7 @@
 				F1B806BB19741D530086B9C2 /* Photographer.m in Sources */,
 				F1B806C119741D530086B9C2 /* Region.m in Sources */,
 				F1B806BE19741D530086B9C2 /* Photo.m in Sources */,
+				F12C27821974A63B00DB6E3E /* FRExtras.m in Sources */,
 				F158E5521972D6AF00EC40E1 /* main.m in Sources */,
 				F158E5B91972E04900EC40E1 /* Photographer+addon.m in Sources */,
 				F158E5AD1972DFE100EC40E1 /* Photo+addon.m in Sources */,

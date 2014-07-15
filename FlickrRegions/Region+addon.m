@@ -26,9 +26,9 @@
     {
         region =[NSEntityDescription insertNewObjectForEntityForName:@"Region" inManagedObjectContext:context];
         region.regionName = rName;
-        NSLog(@"Added region %@",rName);
+        CCLog(@"Added region %@",rName);
     } else {
-        NSLog(@"Region %@ already exists",rName);
+        CCLog(@"Region %@ already exists",rName);
         region=regionResults[0];
     }
     return region;
@@ -39,9 +39,9 @@
     NSURL *url= [FlickrFetcher URLforInformationAboutPlace:[d valueForKey:FLICKR_PLACE_ID]];
     NSData *jsonResults = [NSData dataWithContentsOfURL:url];
     NSDictionary *propertyListResults = [NSJSONSerialization JSONObjectWithData:jsonResults options:0 error:NULL];
-    //    NSLog(@"Flickr results = %@", propertyListResults);
+    //    CCLog(@"Flickr results = %@", propertyListResults);
     NSString *region=[FlickrFetcher extractRegionNameFromPlaceInformation:propertyListResults];
-    NSLog(@"region=%@",region);
+    CCLog(@"region=%@",region);
     return region;
 }
 
@@ -56,13 +56,13 @@
         NSArray *regionResults = [context executeFetchRequest:request error:&error];
         if((!regionResults) || (regionResults.count==0))
         {
-            NSLog(@"Error region %@ does not exist!",rName);
+            CCLog(@"Error region %@ does not exist!",rName);
         } else {
             Region *rr=regionResults[0];
             NSInteger regionQty=0;
             for(Location *loc in rr.hasLocations) {
                 regionQty=regionQty+loc.pictureQty.integerValue;
-                NSLog(@"region=%@ locations %@ have %d pictures for %d total",rName,loc.locationName,loc.pictureQty.integerValue,regionQty);
+                CCLog(@"region=%@ locations %@ have %d pictures for %d total",rName,loc.locationName,loc.pictureQty.integerValue,regionQty);
             }
             rr.countOfPictures=[NSNumber numberWithInteger:regionQty];
         }

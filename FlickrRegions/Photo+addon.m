@@ -16,7 +16,7 @@
 {
     NSManagedObjectContext *context=doc.managedObjectContext;
     NSString *pID=[d valueForKey:FLICKR_PHOTO_ID];
-    NSLog(@"Photo-id=%@",pID);
+    CCLog(@"d=%@",d);
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Photo"];
     request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"photoID" ascending:YES]];
     request.predicate=[NSPredicate predicateWithFormat:@"photoID=%@",pID];
@@ -26,10 +26,11 @@
         Photo *photo =[NSEntityDescription insertNewObjectForEntityForName:@"Photo" inManagedObjectContext:context];
         photo.title=[d valueForKey:FLICKR_PHOTO_TITLE];
         photo.photoID=[d valueForKey:FLICKR_PHOTO_ID];
-        [Location addLocation:d onDocument:doc];
-        NSLog(@"Photo %@ has been added",pID);
+        photo.ofLocation=[Location getLocation:[d valueForKey:FLICKR_PHOTO_PLACE_ID] onDocument:doc];
+        if (!photo.ofLocation) [Location addLocation:d onDocument:doc];
+        CCLog(@"Photo %@ has been added",pID);
     } else {
-        NSLog(@"Photo %@ already exists",pID);
+        CCLog(@"Photo %@ already exists",pID);
     }
 }
 

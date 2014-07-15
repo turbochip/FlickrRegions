@@ -7,8 +7,10 @@
 //
 
 #import "Location.h"
+#import "FRExtras.h"
 
 @interface Location (addon)
 +(Location *) addLocation:(NSDictionary *)d onDocument:(UIManagedDocument *)doc;
++(Location *)getLocation:(NSString *)locationID onDocument:(UIManagedDocument *)doc;
 
 @end

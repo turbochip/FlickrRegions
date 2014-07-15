@@ -10,9 +10,11 @@
 #import "Photo.h"
 #import "Region.h"
 #import "Location.h"
+#import "FlickrFetcher.h"
 
 @interface FRPhotoTVC ()
 @property (nonatomic,strong) NSMutableArray *photos;
+@property (nonatomic,strong) NSMutableArray *photoLocations;
 @end
 
 @implementation FRPhotoTVC
@@ -26,12 +28,25 @@
     return self;
 }
 
+- (NSMutableArray *) photos
+{
+    if(!_photos) _photos=[[NSMutableArray alloc] init];
+    return _photos;
+}
+
+- (NSMutableArray *) photoLocations
+{
+    if(!_photoLocations) _photoLocations=[[NSMutableArray alloc] init];
+    return _photoLocations;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    self.tableView.delegate=self;
+    CCLog(@"calling plog");
     NSManagedObjectContext *context=self.document.managedObjectContext;
-    NSLog(@"Fetching regionName=%@",self.regionName);
+    CCLog(@"Fetching regionName=%@",self.regionName);
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Region"];
    // request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:NO]];
     request.predicate=[NSPredicate predicateWithFormat:@"regionName==%@",self.regionName];
@@ -40,24 +55,25 @@
     NSArray *regionResults = [context executeFetchRequest:request error:&error];
     if((!regionResults) || (regionResults.count==0))
     {
-        NSLog(@"Error no regions found %@",error);
+        CCLog(@"Error no regions found %@",error);
     } else {
         Region *reg=[regionResults objectAtIndex:0];
-        for(Location *loc in [reg.hasLocations allObjects]){
+        self.photoLocations=[[reg.hasLocations allObjects] mutableCopy];
+        for(Location *loc in self.photoLocations){
             request=nil;
             request=[NSFetchRequest fetchRequestWithEntityName:@"Location"];
-            NSLog(@"LocationName=%@",loc.locationName);
+            CCLog(@"LocationName=%@",loc.locationName);
             request.predicate=[NSPredicate predicateWithFormat:@"locationName==%@",loc.locationName];
             NSArray *locationResults = [context executeFetchRequest:request error:&error];
-            NSLog(@"locationResults %@",locationResults);
+            //CCLog(@"locationResults %@",locationResults);
             if((!locationResults) || (locationResults.count==0)) {
-                NSLog(@"No Pictures found for location %@",loc.locationName);
+                CCLog(@"No Pictures found for location %@",loc.locationName);
             } else {
                 for(Location *l in locationResults) {
-                    NSLog(@"location=%@",l.locationName);
+                    CCLog(@"location=%@",l.locationName);
                     for(Photo *p in [l.hasPhotosof allObjects]) {
-                        NSLog(@"Photo=%@",p.title);
-                        [self.photos addObject:p.title];
+                        CCLog(@"Photo=%@",p.title);
+                        [self.photos addObject:p];
                     }
                 }
             }
@@ -75,15 +91,14 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
+    CCLog(@"self.photos.count=%d",self.photos.count);
     return self.photos.count;
 }
 
@@ -93,11 +108,15 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PhotoCell" forIndexPath:indexPath];
     
     // Configure the cell...
-    cell.textLabel.text=[self.photos objectAtIndex:indexPath.row];
+    Photo *p=[self.photos objectAtIndex:indexPath.row];
+    cell.textLabel.text=p.title;
     return cell;
 }
 
-
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    CCLog(@"Selected row at indexpath");
+}
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -136,7 +155,7 @@
 }
 */
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -144,7 +163,9 @@
 {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    CCLog(@"Preparing for segue");
 }
-*/
+
+
 
 @end

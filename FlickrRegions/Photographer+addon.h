@@ -7,6 +7,7 @@
 //
 
 #import "Photographer.h"
+#import "FRExtras.h"
 
 @interface Photographer (addon)
 
