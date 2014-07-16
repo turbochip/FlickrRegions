@@ -12,6 +12,7 @@
         <relationship name="isInRegion" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Region" inverseName="hasLocations" inverseEntity="Region" syncable="YES"/>
     </entity>
     <entity name="Photo" representedClassName="Photo" syncable="YES">
+        <attribute name="photoDictionary" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="photoID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="thumbnail" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
@@ -31,7 +32,7 @@
     <elements>
         <element name="History" positionX="-227" positionY="-36" width="128" height="73"/>
         <element name="Location" positionX="-234" positionY="126" width="128" height="118"/>
-        <element name="Photo" positionX="-47" positionY="81" width="128" height="133"/>
+        <element name="Photo" positionX="-47" positionY="81" width="128" height="148"/>
         <element name="Photographer" positionX="142" positionY="144" width="128" height="73"/>
         <element name="Region" positionX="-423" positionY="135" width="128" height="88"/>
     </elements>

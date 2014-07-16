@@ -11,10 +11,13 @@
 #import "Region.h"
 #import "Location.h"
 #import "FlickrFetcher.h"
+#import "FRPhotoVC.h"
+#import "FRPhotoInfoVC.h"
 
 @interface FRPhotoTVC ()
 @property (nonatomic,strong) NSMutableArray *photos;
 @property (nonatomic,strong) NSMutableArray *photoLocations;
+@property (nonatomic,strong) Photo *transferPhoto;
 @end
 
 @implementation FRPhotoTVC
@@ -113,48 +116,12 @@
     return cell;
 }
 
-- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (NSIndexPath *) tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CCLog(@"Selected row at indexpath");
+    CCLog(@"Selected row at indexpath %d - %@",indexPath.row,[self.photos objectAtIndex:indexPath.row]);
+    self.transferPhoto=[self.photos objectAtIndex:indexPath.row];
+    return indexPath;
 }
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
 
 #pragma mark - Navigation
 
@@ -164,6 +131,18 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     CCLog(@"Preparing for segue");
+    if([segue.destinationViewController isKindOfClass:[FRPhotoVC class]]) {
+        FRPhotoVC *dVC = segue.destinationViewController;
+        CCLog(@"transferPhoto1=%@",self.transferPhoto);
+        dVC.transferPhoto=self.transferPhoto;
+        dVC.document=self.document;
+    } else {
+        // this is the info segue.  We have to determine what cell we were on when the button was pressed
+        CCLog(@"transferPhoto2=%@",self.transferPhoto);
+        FRPhotoInfoVC *dVC = segue.destinationViewController;
+        dVC.transferPhoto=self.transferPhoto;
+        dVC.document=self.document;
+    }
 }
 
 

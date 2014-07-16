@@ -26,6 +26,7 @@
         Photo *photo =[NSEntityDescription insertNewObjectForEntityForName:@"Photo" inManagedObjectContext:context];
         photo.title=[d valueForKey:FLICKR_PHOTO_TITLE];
         photo.photoID=[d valueForKey:FLICKR_PHOTO_ID];
+        photo.photoDictionary=[NSKeyedArchiver archivedDataWithRootObject:d];
         photo.ofLocation=[Location getLocation:[d valueForKey:FLICKR_PHOTO_PLACE_ID] onDocument:doc];
         if (!photo.ofLocation) [Location addLocation:d onDocument:doc];
         CCLog(@"Photo %@ has been added",pID);

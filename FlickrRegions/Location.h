@@ -2,7 +2,7 @@
 //  Location.h
 //  FlickrRegions
 //
-//  Created by Chip Cox on 7/14/14.
+//  Created by Chip Cox on 7/15/14.
 //  Copyright (c) 2014 Home. All rights reserved.
 //
 
@@ -13,9 +13,9 @@
 
 @interface Location : NSManagedObject
 
+@property (nonatomic, retain) NSString * locationID;
 @property (nonatomic, retain) NSString * locationName;
 @property (nonatomic, retain) NSNumber * pictureQty;
-@property (nonatomic, retain) NSString * locationID;
 @property (nonatomic, retain) NSSet *hasPhotosof;
 @property (nonatomic, retain) Region *isInRegion;
 @end

@@ -49,7 +49,10 @@
     NSError *error;
     NSArray *locationResults = [context executeFetchRequest:request error:&error];
     //CCLog(@"locationResults=%@",[locationResults objectAtIndex:0]);
-
+    if((!locationResults) || (locationResults.count==0)) {
+        CCLog(@"LocationID %@ does not exist",locationID);
+        return nil;
+    }
     return [locationResults objectAtIndex:0];
 }
 

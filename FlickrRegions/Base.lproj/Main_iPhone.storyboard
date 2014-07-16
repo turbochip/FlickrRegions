@@ -117,8 +117,8 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="EPI-Y2-sue" kind="push" identifier="DisplayPhotoSegue" id="TM3-hd-WYy"/>
-                                    <segue destination="lid-tx-g5D" kind="push" identifier="PictureInfoSegue" trigger="accessoryAction" id="cfx-qt-vjc"/>
+                                    <segue destination="lid-tx-g5D" kind="push" identifier="PhotoInfoSegue" trigger="accessoryAction" id="cfx-qt-vjc"/>
+                                    <segue destination="EPI-Y2-sue" kind="push" identifier="DisplayPhotoSegue" id="vOn-ar-u8n"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -169,12 +169,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TSa-KM-ZWU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2936" y="82"/>
+            <point key="canvasLocation" x="2891" y="82"/>
         </scene>
-        <!--View Controller-->
+        <!--PhotoVC-->
         <scene sceneID="UF6-iz-NID">
             <objects>
-                <viewController id="EPI-Y2-sue" sceneMemberID="viewController">
+                <viewController id="EPI-Y2-sue" customClass="FRPhotoVC" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="9GI-a5-ZEy"/>
                         <viewControllerLayoutGuide type="bottom" id="X0w-NM-78C"/>
@@ -201,10 +201,15 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="fo4-Vl-OMQ"/>
+                    <connections>
+                        <outlet property="ImageView" destination="oRW-lf-Saw" id="WsU-G5-3le"/>
+                        <outlet property="imageView" destination="oRW-lf-Saw" id="7FD-pe-c1j"/>
+                        <outlet property="scrollView" destination="4ea-W1-Cly" id="Z2L-Rr-PgE"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EKj-nG-nlb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2936" y="785"/>
+            <point key="canvasLocation" x="2891" y="785"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="DCh-VJ-TRu">
@@ -312,6 +317,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="TM3-hd-WYy"/>
+        <segue reference="vOn-ar-u8n"/>
     </inferredMetricsTieBreakers>
 </document>
