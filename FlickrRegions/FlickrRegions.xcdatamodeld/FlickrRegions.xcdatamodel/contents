@@ -2,7 +2,7 @@
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13E28" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="History" representedClassName="History" syncable="YES">
         <attribute name="timeViewed" optional="YES" attributeType="Date" syncable="YES"/>
-        <relationship name="hasPhotos" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Photo" inverseName="lastViewed" inverseEntity="Photo" syncable="YES"/>
+        <relationship name="hasPhotos" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Photo" inverseName="lastViewed" inverseEntity="Photo" syncable="YES"/>
     </entity>
     <entity name="Location" representedClassName="Location" syncable="YES">
         <attribute name="locationID" optional="YES" attributeType="String" syncable="YES"/>

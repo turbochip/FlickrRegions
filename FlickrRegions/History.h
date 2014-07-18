@@ -2,7 +2,7 @@
 //  History.h
 //  FlickrRegions
 //
-//  Created by Chip Cox on 7/15/14.
+//  Created by Chip Cox on 7/17/14.
 //  Copyright (c) 2014 Home. All rights reserved.
 //
 
@@ -14,14 +14,6 @@
 @interface History : NSManagedObject
 
 @property (nonatomic, retain) NSDate * timeViewed;
-@property (nonatomic, retain) NSSet *hasPhotos;
-@end
-
-@interface History (CoreDataGeneratedAccessors)
-
-- (void)addHasPhotosObject:(Photo *)value;
-- (void)removeHasPhotosObject:(Photo *)value;
-- (void)addHasPhotos:(NSSet *)values;
-- (void)removeHasPhotos:(NSSet *)values;
+@property (nonatomic, retain) Photo *hasPhotos;
 
 @end

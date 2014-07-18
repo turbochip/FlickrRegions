@@ -10,5 +10,7 @@
 #import "FRExtras.h"
 
 @interface History (addon)
++(History *) addHistory:(Photo *)p onDocument:(UIManagedDocument *)doc;
++(NSArray *) listHistoryonDocument:(UIManagedDocument *) doc;
 
 @end

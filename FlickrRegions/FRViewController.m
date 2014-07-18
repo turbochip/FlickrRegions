@@ -14,6 +14,7 @@
 #import "Region.h"
 #import "Region+addon.h"
 #import "FRRegionTVC.h"
+#import "FRHistoryTVC.h"
 #import "FRAppDelegate.h"
 
 @interface FRViewController ()
@@ -165,6 +166,12 @@
     {
         FRRegionTVC *regTVC=segue.destinationViewController;
         regTVC.document=self.document;
+    } else {
+        if ([segue.destinationViewController isKindOfClass:[FRHistoryTVC class]])
+        {
+            FRHistoryTVC *histTVC=segue.destinationViewController;
+            histTVC.document=self.document;
+        }
     }
 }
 

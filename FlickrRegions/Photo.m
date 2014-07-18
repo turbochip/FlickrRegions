@@ -2,7 +2,7 @@
 //  Photo.m
 //  FlickrRegions
 //
-//  Created by Chip Cox on 7/15/14.
+//  Created by Chip Cox on 7/17/14.
 //  Copyright (c) 2014 Home. All rights reserved.
 //
 
@@ -14,10 +14,10 @@
 
 @implementation Photo
 
+@dynamic photoDictionary;
 @dynamic photoID;
 @dynamic thumbnail;
 @dynamic title;
-@dynamic photoDictionary;
 @dynamic lastViewed;
 @dynamic ofLocation;
 @dynamic takenBy;

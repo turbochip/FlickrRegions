@@ -9,6 +9,7 @@
 #import "FRPhotoVC.h"
 #import "FlickrFetcher.h"
 #import "Photo.h"
+#import "History+addon.h"
 
 
 @interface FRPhotoVC () <UIScrollViewDelegate>
@@ -59,6 +60,7 @@
     } else {
         CCLog(@"preparing photoURL");
         Photo *myP=[regionResults objectAtIndex:0];
+        [History addHistory:myP onDocument:self.document];
         NSDictionary *myD=(NSDictionary *) [NSKeyedUnarchiver unarchiveObjectWithData:myP.photoDictionary ];
         CCLog(@"myD=%@",myD);
     
@@ -86,11 +88,7 @@
 {
     self.scrollView.zoomScale=1.0;
     self.imageView.image=image;
-    self.imageView.frame=CGRectMake(0,0,image.size.width,image.size.height);
     self.scrollView.contentSize=self.image ? self.image.size :CGSizeZero ;
-    float scale=self.scrollView.frame.size.width/self.image.size.width;
-    self.scrollView.zoomScale=scale;
-//    [self.spinner stopAnimating];
 }
 
 
