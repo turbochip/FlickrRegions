@@ -12,5 +12,6 @@
 @interface Location (addon)
 +(Location *) addLocation:(NSDictionary *)d onDocument:(UIManagedDocument *)doc;
 +(Location *)getLocation:(NSString *)locationID onDocument:(UIManagedDocument *)doc;
++(void) loadLocationsFromFlickrArray:(NSArray *)locations onDocument:(UIManagedDocument *) doc;
 
 @end

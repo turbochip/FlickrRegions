@@ -38,6 +38,7 @@
 {
     [super viewDidLoad];
 
+    CCLog(@"in viewdidload");
     FRHistoryTVC *myFRHTVC=(FRHistoryTVC *)[self.tabBarController.viewControllers objectAtIndex:0];
     self.document=myFRHTVC.document;
 
@@ -60,7 +61,6 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
     return 1;
 }

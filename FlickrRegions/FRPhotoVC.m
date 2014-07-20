@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong,nonatomic) UIImage *image;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
 @end
 
 @implementation FRPhotoVC
@@ -47,6 +48,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.spinner=[FRExtras startSpinner:self.spinner];
     // Do any additional setup after loading the view.]
     NSManagedObjectContext *context=self.document.managedObjectContext;
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Photo"];
@@ -54,7 +56,7 @@
     request.predicate=[NSPredicate predicateWithFormat:@"photoID=%@",self.transferPhoto.photoID];
     NSError *error;
     NSArray *regionResults = [context executeFetchRequest:request error:&error];
-    CCLog(@"RegionResults=%@",regionResults);
+    //CCLog(@"RegionResults=%@",regionResults);
     if((!regionResults) || (regionResults.count==0)) {
         CCLog(@"Error no photoDictionary found");
     } else {
@@ -62,7 +64,7 @@
         Photo *myP=[regionResults objectAtIndex:0];
         [History addHistory:myP onDocument:self.document];
         NSDictionary *myD=(NSDictionary *) [NSKeyedUnarchiver unarchiveObjectWithData:myP.photoDictionary ];
-        CCLog(@"myD=%@",myD);
+        //CCLog(@"myD=%@",myD);
     
         NSURL *photoURL=[FlickrFetcher URLforPhoto:myD format:FlickrPhotoFormatLarge];
         CCLog(@"photoURL=%@",photoURL.path);
@@ -78,6 +80,7 @@
                                                                 }
                                                             }
                                                         }];
+        [FRExtras stopSpinner:self.spinner];
         [task resume];
 
     }

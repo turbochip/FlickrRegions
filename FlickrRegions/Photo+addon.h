@@ -10,7 +10,9 @@
 #import "FRExtras.h"
 
 @interface Photo (addon)
+@property (nonatomic,strong) UIManagedDocument *document;
 
 +(void) addPhoto:(NSDictionary *) d onDocument:(UIManagedDocument *) doc;
++(void) LoadPhotosFromFlickrArray:(NSArray *)photos onDocument:(UIManagedDocument *) doc;
 
 @end

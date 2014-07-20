@@ -31,6 +31,7 @@
         location.locationID=[d objectForKey:FLICKR_PLACE_ID];
         CCLog(@"Location %@ has been added",lName);
         location.isInRegion=[Region addRegion:d onDocument:doc];
+        [context save:NULL];
         
     } else {
         CCLog(@"Location %@ already exists",lName);
@@ -54,6 +55,15 @@
         return nil;
     }
     return [locationResults objectAtIndex:0];
+}
+
++(void) loadLocationsFromFlickrArray:(NSArray *)locations onDocument:(UIManagedDocument *) doc
+{
+    CCLog(@"Loading location array");
+    //CCLog(@"locations=%@",locations);
+    for(NSDictionary *location in locations) {
+        [self addLocation:location onDocument:doc];
+    }
 }
 
 @end

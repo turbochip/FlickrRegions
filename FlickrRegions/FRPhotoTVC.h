@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CoreDataTableViewController.h"
 #import "FRExtras.h"
 
-@interface FRPhotoTVC : UITableViewController
+@interface FRPhotoTVC : CoreDataTableViewController
 @property (nonatomic,strong) UIManagedDocument *document;
 @property (nonatomic,strong) NSString *regionName;
 @end

@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CoreDataTableViewController.h"
 
-@interface FRRegionTVC : UITableViewController
+@interface FRRegionTVC : CoreDataTableViewController
 @property (nonatomic,strong) UIManagedDocument *document;
 @end

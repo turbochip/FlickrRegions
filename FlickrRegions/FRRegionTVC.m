@@ -14,74 +14,79 @@
 #import "FRViewController.h"
 #import "FRPhotoTVC.h"
 #import "FlickrFetcher.h"
+#import "CoreDataTableViewController.h"
+#import "PhotoDatabaseAvailability.h"
 
 @interface FRRegionTVC ()
 @property (nonatomic,strong) NSMutableArray *regions;
 @property (nonatomic,strong) NSString *regionName;
 @property (nonatomic,strong) NSMutableArray *photos;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
+@property (weak, nonatomic) IBOutlet UIView *ActivityView;
 @end
 
 @implementation FRRegionTVC
 
-- (id)initWithStyle:(UITableViewStyle)style
+-(void)awakeFromNib
 {
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
+    [[NSNotificationCenter defaultCenter] addObserverForName:PhotoDatabaseAvailabilityNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+        self.document = note.userInfo [PhotoDatabaseAvailabilityDocument];
+    }];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    FRViewController *myFRVC=(FRViewController *)[self.tabBarController.viewControllers objectAtIndex:0];
-    self.document=myFRVC.document;
     NSManagedObjectContext *context=self.document.managedObjectContext;
+    
+    [self updatePhotoCount:context];
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Region"];
     request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"countOfPictures" ascending:NO],
                                 [NSSortDescriptor sortDescriptorWithKey:@"regionName" ascending:YES]];
-//    request.predicate=[NSPredicate predicateWithFormat:@"regionName=%@",rName];
+    request.predicate=nil;
+    self.fetchedResultsController = [[NSFetchedResultsController alloc]
+                                     initWithFetchRequest:request
+                                     managedObjectContext:context
+                                     sectionNameKeyPath:nil
+                                     cacheName:nil];
+
+    self.tableView.delegate=self;
+}
+
+-(void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    NSManagedObjectContext *context=self.document.managedObjectContext;
+    [self updatePhotoCount:context];
+
+}
+
+-(void) updatePhotoCount:(NSManagedObjectContext *)context
+{
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Region"];
+    request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"regionName" ascending:NO]];
+    request.predicate=nil;
     NSError *error;
     NSArray *regionResults = [context executeFetchRequest:request error:&error];
     if((!regionResults) || (regionResults.count==0))
     {
-        CCLog(@"Error no regions found %@",error);
+        CCLog(@"No Regions found");
     } else {
-        self.regions=[regionResults mutableCopy];
+        for(Region *region in regionResults) {
+            NSInteger piccnt=0;
+            for(Location *loc in region.hasLocations) {
+                piccnt=piccnt+[loc.pictureQty integerValue];
+            }
+            region.countOfPictures=[NSNumber numberWithInteger:piccnt];
+        }
     }
-    self.tableView.delegate=self;
 }
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-#pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
-   return [self.regions count];
-}
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RegionCell" forIndexPath:indexPath];
-    
     // Configure the cell...
-    Region *reg=[self.regions objectAtIndex:indexPath.row];
+    Region *reg=[self.fetchedResultsController objectAtIndexPath:indexPath];
     cell.textLabel.text=reg.regionName;
     cell.detailTextLabel.text=[NSString stringWithFormat:@"%d Pictures",reg.countOfPictures.integerValue];
     return cell;
@@ -89,7 +94,7 @@
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Region *reg=[self.regions objectAtIndex:indexPath.row];
+    Region *reg=[self.fetchedResultsController objectAtIndexPath:indexPath];
     self.regionName=reg.regionName;
     CCLog(@"region %@ was selected now go prepare for segue",self.regionName);
     return indexPath;
@@ -103,7 +108,9 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     if([segue.destinationViewController isKindOfClass:[FRPhotoTVC class]]){
+        self.spinner=[FRExtras startSpinner:self.spinner ];
         [self fetchPhotos:self.document];
+        [FRExtras stopSpinner:self.spinner];
         FRPhotoTVC *photoSegue=[segue destinationViewController];
         photoSegue.document=self.document;
         photoSegue.regionName=self.regionName;
@@ -123,6 +130,7 @@
     {
         CCLog(@"Region %@ not found",self.regionName);
     } else {
+/*
         Region *rr=[regionResults objectAtIndex:0];
         for(Location *loc in rr.hasLocations) {
             CCLog(@"Location=%@",loc.locationName );
@@ -131,30 +139,16 @@
                 NSData *jsonResults = [NSData dataWithContentsOfURL:url];
                 NSDictionary *photoResults = [NSJSONSerialization JSONObjectWithData:jsonResults options:0 error:NULL];
                 self.photos=[[photoResults valueForKeyPath:FLICKR_RESULTS_PHOTOS] mutableCopy];
-                //CCLog(@"About to go through photos %@",self.photos);
+#warning Why are we going through pictures here
+            //CCLog(@"About to go through photos %@",self.photos);
                 for(NSDictionary *p in self.photos) {
                     CCLog(@"Photo=%@",[p objectForKey:FLICKR_PHOTO_TITLE]);
                     [Photo addPhoto:p onDocument:self.document];
                 }
-                
-/*
-                NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Region"];
-                request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"regionName" ascending:YES]];
-                NSError *error;
-                NSArray *regionResults = [context executeFetchRequest:request error:&error];
-                if((!regionResults) || (regionResults.count==0))
-                {
-                    CCLog(@"Error %@",error);
-                } else {
-                    for(Region *reg in regionResults)
-                        [Region updateNumberOfPicturesInRegion:reg.regionName onDocument:self.document];
-                }
-                [self stopSpinner];
-                self.doneAddingData=YES;
- */
-
         }
+ */
     }
+
 }
 
 @end

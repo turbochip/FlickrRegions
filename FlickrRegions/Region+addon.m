@@ -39,7 +39,7 @@
     NSURL *url= [FlickrFetcher URLforInformationAboutPlace:[d valueForKey:FLICKR_PLACE_ID]];
     NSData *jsonResults = [NSData dataWithContentsOfURL:url];
     NSDictionary *propertyListResults = [NSJSONSerialization JSONObjectWithData:jsonResults options:0 error:NULL];
-    //    CCLog(@"Flickr results = %@", propertyListResults);
+    CCLog(@"Flickr results = %@", propertyListResults);
     NSString *region=[FlickrFetcher extractRegionNameFromPlaceInformation:propertyListResults];
     CCLog(@"region=%@",region);
     return region;
@@ -60,12 +60,25 @@
         } else {
             Region *rr=regionResults[0];
             NSInteger regionQty=0;
+            CCLog(@"Region     location     pictures     total");
             for(Location *loc in rr.hasLocations) {
                 regionQty=regionQty+loc.pictureQty.integerValue;
-                CCLog(@"region=%@ locations %@ have %d pictures for %d total",rName,loc.locationName,loc.pictureQty.integerValue,regionQty);
+                CCLog(@"%d, %d, %@ - %@",loc.pictureQty.integerValue,regionQty,rName,loc.locationName);
             }
             rr.countOfPictures=[NSNumber numberWithInteger:regionQty];
+            [context save:NULL];
+
         }
     }
 }
+
++(void) loadRegionsFromFlickrArray:(NSArray *)regions onDocument:(UIManagedDocument *) doc
+{
+    CCLog(@"Loading region array");
+    //CCLog(@"regions=%@",regions);
+    for(NSDictionary *region in regions) {
+        [self addRegion:region onDocument:doc];
+    }
+}
+
 @end

@@ -12,5 +12,6 @@
 @interface Region (addon)
 +(Region *) addRegion:(NSDictionary *)d onDocument:(UIManagedDocument *) doc;
 +(void) updateNumberOfPicturesInRegion: (NSString *)rName onDocument: (UIManagedDocument *)doc;
++(void) loadRegionsFromFlickrArray:(NSArray *)regions onDocument:(UIManagedDocument *) doc;
 
 @end
