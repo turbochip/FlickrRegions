@@ -36,6 +36,11 @@
         Photo *photo =[NSEntityDescription insertNewObjectForEntityForName:@"Photo" inManagedObjectContext:context];
         photo.title=[d valueForKey:FLICKR_PHOTO_TITLE];
         photo.photoID=[d valueForKey:FLICKR_PHOTO_ID];
+        photo.photoDescription=[d valueForKeyPath:FLICKR_PHOTO_DESCRIPTION];
+        photo.longitude=[d valueForKeyPath:FLICKR_LONGITUDE];
+        photo.latitude=[d valueForKeyPath:FLICKR_LATITUDE];
+        
+        photo.dateUploaded=[NSDate dateWithTimeIntervalSince1970:[[d valueForKeyPath:FLICKR_PHOTO_UPLOAD_DATE] doubleValue]];
         photo.photoDictionary=[NSKeyedArchiver archivedDataWithRootObject:d];
         photo.ofLocation=[Location getLocation:[d valueForKey:FLICKR_PHOTO_PLACE_ID] onDocument:doc];
         if (!photo.ofLocation) [Location addLocation:d onDocument:doc];

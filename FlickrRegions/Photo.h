@@ -2,7 +2,7 @@
 //  Photo.h
 //  FlickrRegions
 //
-//  Created by Chip Cox on 7/18/14.
+//  Created by Chip Cox on 7/22/14.
 //  Copyright (c) 2014 Home. All rights reserved.
 //
 
@@ -13,8 +13,13 @@
 
 @interface Photo : NSManagedObject
 
+@property (nonatomic, retain) NSDate * dateUploaded;
+@property (nonatomic, retain) NSNumber * latitude;
+@property (nonatomic, retain) NSNumber * longitude;
+@property (nonatomic, retain) NSString * photoDescription;
 @property (nonatomic, retain) NSData * photoDictionary;
 @property (nonatomic, retain) NSString * photoID;
+@property (nonatomic, retain) NSString * tags;
 @property (nonatomic, retain) NSData * thumbnail;
 @property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) History *lastViewed;

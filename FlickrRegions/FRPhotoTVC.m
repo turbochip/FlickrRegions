@@ -61,7 +61,8 @@
 
 - (NSIndexPath *) tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //CCLog(@"Selected row at indexpath %d - %@",indexPath.row,[self.fetchedResultsController objectAtIndexPath:indexPath]);
+    CCLog(@"Selected row at indexpath %d",indexPath.row);
+    self.transferPhoto=nil;
     self.transferPhoto=[self.fetchedResultsController objectAtIndexPath:indexPath];
     return indexPath;
 }
@@ -81,11 +82,13 @@
         dVC.document=self.document;
     } else {
         // this is the info segue.  We have to determine what cell we were on when the button was pressed
-        //CCLog(@"transferPhoto for info=%@",self.transferPhoto);
+        // get the indexpath for the row where the info accessory was clicked.
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
         FRPhotoInfoVC *dVC = segue.destinationViewController;
-        dVC.transferPhoto=self.transferPhoto;
+        dVC.transferPhoto=[self.fetchedResultsController objectAtIndexPath:indexPath];
         dVC.document=self.document;
     }
+
 }
 
 

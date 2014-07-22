@@ -13,6 +13,12 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong,nonatomic) UIImage *image;
+@property (weak, nonatomic) IBOutlet UITextField *titleField;
+@property (weak, nonatomic) IBOutlet UITextField *photographer;
+@property (weak, nonatomic) IBOutlet UITextField *dateUploadedField;
+@property (weak, nonatomic) IBOutlet UITextField *latitudeField;
+@property (weak, nonatomic) IBOutlet UITextField *tagsField;
+@property (weak, nonatomic) IBOutlet UITextField *longitudeField;
 
 @end
 
@@ -76,16 +82,24 @@
                                                             }
                                                         }];
         [task resume];
-        
+        self.titleField.text=myP.title;
+        self.latitudeField.text=[NSString stringWithFormat:@"%f10.2",[myP.latitude floatValue]];
+        self.longitudeField.text=[NSString stringWithFormat:@"%f10.2", [myP.longitude floatValue]];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        dateFormatter.dateFormat = @"dd-MM-yyyy";
+        NSString *myDateAsString = [dateFormatter stringFromDate:[myP dateUploaded]];
+
+        self.dateUploadedField.text=myDateAsString;
     }
 }
 
 
 - (void) setImage:(UIImage *)image
 {
-    self.scrollView.zoomScale=1.0;
+    self.scrollView.zoomScale= 1;
     self.imageView.image=image;
     self.scrollView.contentSize=self.image ? self.image.size :CGSizeZero ;
+    [self.imageView setFrame:self.scrollView.frame];
 }
 
 - (void)didReceiveMemoryWarning

@@ -2,7 +2,7 @@
 //  Region.m
 //  FlickrRegions
 //
-//  Created by Chip Cox on 7/18/14.
+//  Created by Chip Cox on 7/22/14.
 //  Copyright (c) 2014 Home. All rights reserved.
 //
 
@@ -12,8 +12,8 @@
 
 @implementation Region
 
-@dynamic regionName;
 @dynamic countOfPictures;
+@dynamic regionName;
 @dynamic hasLocations;
 
 @end
