@@ -44,7 +44,7 @@
     CCLog(@"region=%@",region);
     return region;
 }
-
+/*
 +(void) updateNumberOfPicturesInRegion: (NSString *)rName onDocument: (UIManagedDocument *)doc
 {
     if(rName) {
@@ -70,6 +70,31 @@
 
         }
     }
+}
+ */
+
++ (void) updateNumberOfPicturesInRegion:(NSString *)rName onDocument:(UIManagedDocument *)doc
+{
+    NSManagedObjectContext *context =doc.managedObjectContext;
+    
+    NSEntityDescription *entity = [NSEntityDescription  entityForName:@"Region" inManagedObjectContext:context];
+    
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entity];
+    [request setResultType:NSDictionaryResultType];
+    [request setReturnsDistinctResults:YES];
+    [request setPropertiesToFetch:@[@"hasLocations.hasPhotosof.takenBy"]];
+    
+    // Execute the fetch.
+    NSError *error;
+    id requestedValue = nil;
+    NSArray *objects = [context executeFetchRequest:request error:&error];
+    if (objects == nil) {
+        // Handle the error.
+        CCLog(@"Error fetching records to update photographer count");
+    }
+    CCLog(@"objects=%@",objects);
+
 }
 
 +(void) loadRegionsFromFlickrArray:(NSArray *)regions onDocument:(UIManagedDocument *) doc

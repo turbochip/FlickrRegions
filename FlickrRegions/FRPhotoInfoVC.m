@@ -8,6 +8,8 @@
 
 #import "FRPhotoInfoVC.h"
 #import "FlickrFetcher.h"
+#import "Photographer+addon.h"
+#import "Photographer.h"
 
 @interface FRPhotoInfoVC ()  <UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
@@ -85,6 +87,7 @@
         self.titleField.text=myP.title;
         self.latitudeField.text=[NSString stringWithFormat:@"%f10.2",[myP.latitude floatValue]];
         self.longitudeField.text=[NSString stringWithFormat:@"%f10.2", [myP.longitude floatValue]];
+        self.photographer.text=myP.takenBy.name;
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         dateFormatter.dateFormat = @"dd-MM-yyyy";
         NSString *myDateAsString = [dateFormatter stringFromDate:[myP dateUploaded]];

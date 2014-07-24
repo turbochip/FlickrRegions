@@ -35,11 +35,11 @@
 		F158E5B61972E02100EC40E1 /* Region+addon.m in Sources */ = {isa = PBXBuildFile; fileRef = F158E5B51972E02100EC40E1 /* Region+addon.m */; };
 		F158E5B91972E04900EC40E1 /* Photographer+addon.m in Sources */ = {isa = PBXBuildFile; fileRef = F158E5B81972E04900EC40E1 /* Photographer+addon.m */; };
 		F158E5EF197378CD00EC40E1 /* FRRegionTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = F158E5EE197378CD00EC40E1 /* FRRegionTVC.m */; };
-		F180334E197E86C700113FE3 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = F180334D197E86C700113FE3 /* Location.m */; };
-		F1803351197E86C700113FE3 /* History.m in Sources */ = {isa = PBXBuildFile; fileRef = F1803350197E86C700113FE3 /* History.m */; };
-		F1803354197E86C700113FE3 /* Photographer.m in Sources */ = {isa = PBXBuildFile; fileRef = F1803353197E86C700113FE3 /* Photographer.m */; };
-		F1803357197E86C700113FE3 /* Region.m in Sources */ = {isa = PBXBuildFile; fileRef = F1803356197E86C700113FE3 /* Region.m */; };
-		F180335D197E883E00113FE3 /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = F180335C197E883E00113FE3 /* Photo.m */; };
+		F171AFBC19819B17004F9CCB /* History.m in Sources */ = {isa = PBXBuildFile; fileRef = F171AFBB19819B17004F9CCB /* History.m */; };
+		F171AFBF19819B18004F9CCB /* Region.m in Sources */ = {isa = PBXBuildFile; fileRef = F171AFBE19819B18004F9CCB /* Region.m */; };
+		F171AFC219819B18004F9CCB /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = F171AFC119819B18004F9CCB /* Photo.m */; };
+		F171AFC519819B18004F9CCB /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = F171AFC419819B18004F9CCB /* Location.m */; };
+		F171AFC819819B18004F9CCB /* Photographer.m in Sources */ = {isa = PBXBuildFile; fileRef = F171AFC719819B18004F9CCB /* Photographer.m */; };
 		F1B806B51974066C0086B9C2 /* FRPhotoTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = F1B806B41974066C0086B9C2 /* FRPhotoTVC.m */; };
 /* End PBXBuildFile section */
 
@@ -100,16 +100,16 @@
 		F158E5B81972E04900EC40E1 /* Photographer+addon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Photographer+addon.m"; sourceTree = "<group>"; };
 		F158E5ED197378CD00EC40E1 /* FRRegionTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRRegionTVC.h; sourceTree = "<group>"; };
 		F158E5EE197378CD00EC40E1 /* FRRegionTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRRegionTVC.m; sourceTree = "<group>"; };
-		F180334C197E86C700113FE3 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
-		F180334D197E86C700113FE3 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
-		F180334F197E86C700113FE3 /* History.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = History.h; sourceTree = "<group>"; };
-		F1803350197E86C700113FE3 /* History.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = History.m; sourceTree = "<group>"; };
-		F1803352197E86C700113FE3 /* Photographer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photographer.h; sourceTree = "<group>"; };
-		F1803353197E86C700113FE3 /* Photographer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Photographer.m; sourceTree = "<group>"; };
-		F1803355197E86C700113FE3 /* Region.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Region.h; sourceTree = "<group>"; };
-		F1803356197E86C700113FE3 /* Region.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Region.m; sourceTree = "<group>"; };
-		F180335B197E883E00113FE3 /* Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
-		F180335C197E883E00113FE3 /* Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Photo.m; sourceTree = "<group>"; };
+		F171AFBA19819B17004F9CCB /* History.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = History.h; sourceTree = "<group>"; };
+		F171AFBB19819B17004F9CCB /* History.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = History.m; sourceTree = "<group>"; };
+		F171AFBD19819B18004F9CCB /* Region.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Region.h; sourceTree = "<group>"; };
+		F171AFBE19819B18004F9CCB /* Region.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Region.m; sourceTree = "<group>"; };
+		F171AFC019819B18004F9CCB /* Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
+		F171AFC119819B18004F9CCB /* Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Photo.m; sourceTree = "<group>"; };
+		F171AFC319819B18004F9CCB /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
+		F171AFC419819B18004F9CCB /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
+		F171AFC619819B18004F9CCB /* Photographer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photographer.h; sourceTree = "<group>"; };
+		F171AFC719819B18004F9CCB /* Photographer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Photographer.m; sourceTree = "<group>"; };
 		F1B806B31974066C0086B9C2 /* FRPhotoTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRPhotoTVC.h; sourceTree = "<group>"; };
 		F1B806B41974066C0086B9C2 /* FRPhotoTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRPhotoTVC.m; sourceTree = "<group>"; };
 		F1F6992A197AB448007DA935 /* PhotoDatabaseAvailability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoDatabaseAvailability.h; sourceTree = "<group>"; };
@@ -172,17 +172,17 @@
 		F158E54B1972D6AF00EC40E1 /* FlickrRegions */ = {
 			isa = PBXGroup;
 			children = (
-				F180335B197E883E00113FE3 /* Photo.h */,
-				F180335C197E883E00113FE3 /* Photo.m */,
 				F158E5871972DBC600EC40E1 /* FlickrRegions.xcdatamodeld */,
-				F1803355197E86C700113FE3 /* Region.h */,
-				F1803356197E86C700113FE3 /* Region.m */,
-				F1803352197E86C700113FE3 /* Photographer.h */,
-				F1803353197E86C700113FE3 /* Photographer.m */,
-				F180334F197E86C700113FE3 /* History.h */,
-				F1803350197E86C700113FE3 /* History.m */,
-				F180334C197E86C700113FE3 /* Location.h */,
-				F180334D197E86C700113FE3 /* Location.m */,
+				F171AFC019819B18004F9CCB /* Photo.h */,
+				F171AFC119819B18004F9CCB /* Photo.m */,
+				F171AFC619819B18004F9CCB /* Photographer.h */,
+				F171AFC719819B18004F9CCB /* Photographer.m */,
+				F171AFC319819B18004F9CCB /* Location.h */,
+				F171AFC419819B18004F9CCB /* Location.m */,
+				F171AFBD19819B18004F9CCB /* Region.h */,
+				F171AFBE19819B18004F9CCB /* Region.m */,
+				F171AFBA19819B17004F9CCB /* History.h */,
+				F171AFBB19819B17004F9CCB /* History.m */,
 				F158E5571972D6B000EC40E1 /* Main_iPhone.storyboard */,
 				F158E55A1972D6B000EC40E1 /* Main_iPad.storyboard */,
 				F158E55D1972D6B000EC40E1 /* FRViewController.h */,
@@ -370,20 +370,20 @@
 				F158E5561972D6B000EC40E1 /* FRAppDelegate.m in Sources */,
 				F12C27821974A63B00DB6E3E /* FRExtras.m in Sources */,
 				F158E5521972D6AF00EC40E1 /* main.m in Sources */,
-				F1803357197E86C700113FE3 /* Region.m in Sources */,
-				F180334E197E86C700113FE3 /* Location.m in Sources */,
+				F171AFBF19819B18004F9CCB /* Region.m in Sources */,
+				F171AFC519819B18004F9CCB /* Location.m in Sources */,
 				F158E5B91972E04900EC40E1 /* Photographer+addon.m in Sources */,
 				F158E5AD1972DFE100EC40E1 /* Photo+addon.m in Sources */,
 				F131DBF41975E82F00FF8307 /* FRPhotoVC.m in Sources */,
-				F180335D197E883E00113FE3 /* Photo.m in Sources */,
+				F171AFC219819B18004F9CCB /* Photo.m in Sources */,
 				F158E5B01972DFFB00EC40E1 /* Location+addon.m in Sources */,
 				F131DBF71975EAFD00FF8307 /* FRPhotoInfoVC.m in Sources */,
 				F158E5891972DBC600EC40E1 /* FlickrRegions.xcdatamodeld in Sources */,
 				F12C53FD1978923F002B5387 /* FRHistoryTVC.m in Sources */,
 				F158E5841972D6D800EC40E1 /* CoreDataTableViewController.m in Sources */,
-				F1803354197E86C700113FE3 /* Photographer.m in Sources */,
+				F171AFC819819B18004F9CCB /* Photographer.m in Sources */,
 				F158E5EF197378CD00EC40E1 /* FRRegionTVC.m in Sources */,
-				F1803351197E86C700113FE3 /* History.m in Sources */,
+				F171AFBC19819B17004F9CCB /* History.m in Sources */,
 				F158E5851972D6D800EC40E1 /* FlickrFetcher.m in Sources */,
 				F158E55F1972D6B000EC40E1 /* FRViewController.m in Sources */,
 				F158E5B31972E00E00EC40E1 /* History+addon.m in Sources */,

@@ -10,5 +10,5 @@
 #import "FRExtras.h"
 
 @interface Photographer (addon)
-
++(Photographer *) addPhotographer:(NSDictionary *) d onDocument:(UIManagedDocument *) doc;
 @end

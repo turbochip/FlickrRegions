@@ -14,6 +14,8 @@
 #import "FRPhotoVC.h"
 #import "FRPhotoInfoVC.h"
 #import "CoreDataTableViewController.h"
+#import "Photographer+addon.h"
+#import "Photographer.h"
 
 @interface FRPhotoTVC ()
 @property (nonatomic,strong) Photo *transferPhoto;
@@ -56,6 +58,7 @@
     // Configure the cell...
     Photo *p=[self.fetchedResultsController objectAtIndexPath:indexPath];
     cell.textLabel.text=p.title;
+    cell.detailTextLabel.text=p.takenBy.name;
     return cell;
 }
 

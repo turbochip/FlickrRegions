@@ -9,6 +9,9 @@
 #import "Photo+addon.h"
 #import "FlickrFetcher.h"
 #import "Location+addon.h"
+#import "Location.h"
+#import "Photographer+addon.h"
+#import "Photographer.h"
 
 @implementation Photo (addon)
 
@@ -25,7 +28,7 @@
 {
     NSManagedObjectContext *context=doc.managedObjectContext;
     NSString *pID=[d valueForKey:FLICKR_PHOTO_ID];
-    //CCLog(@"d=%@",d);
+    CCLog(@"d=%@",d);
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Photo"];
     request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"photoID" ascending:YES]];
     request.predicate=[NSPredicate predicateWithFormat:@"photoID=%@",pID];
@@ -45,6 +48,8 @@
         photo.ofLocation=[Location getLocation:[d valueForKey:FLICKR_PHOTO_PLACE_ID] onDocument:doc];
         if (!photo.ofLocation) [Location addLocation:d onDocument:doc];
         CCLog(@"Photo %@ has been added",pID);
+        photo.takenBy=[Photographer addPhotographer:d onDocument:doc];
+        [photo.ofLocation addHasPhotographersObject:photo.takenBy];
         [context save:NULL];
 
     } else {

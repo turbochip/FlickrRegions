@@ -8,6 +8,7 @@
         <attribute name="locationID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="locationName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="pictureQty" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="hasPhotographers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Photographer" inverseName="tookPhotosInLocation" inverseEntity="Photographer" syncable="YES"/>
         <relationship name="hasPhotosof" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Photo" inverseName="ofLocation" inverseEntity="Photo" syncable="YES"/>
         <relationship name="isInRegion" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Region" inverseName="hasLocations" inverseEntity="Region" syncable="YES"/>
     </entity>
@@ -28,6 +29,7 @@
     <entity name="Photographer" representedClassName="Photographer" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="tookPhotos" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Photo" inverseName="takenBy" inverseEntity="Photo" syncable="YES"/>
+        <relationship name="tookPhotosInLocation" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Location" inverseName="hasPhotographers" inverseEntity="Location" syncable="YES"/>
     </entity>
     <entity name="Region" representedClassName="Region" syncable="YES">
         <attribute name="countOfPictures" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -36,9 +38,9 @@
     </entity>
     <elements>
         <element name="History" positionX="-227" positionY="-36" width="128" height="73"/>
-        <element name="Location" positionX="-234" positionY="126" width="128" height="118"/>
-        <element name="Photo" positionX="-47" positionY="81" width="128" height="223"/>
-        <element name="Photographer" positionX="142" positionY="144" width="128" height="73"/>
+        <element name="Location" positionX="-234" positionY="126" width="128" height="133"/>
+        <element name="Photo" positionX="-38" positionY="-27" width="128" height="223"/>
+        <element name="Photographer" positionX="-72" positionY="279" width="128" height="88"/>
         <element name="Region" positionX="-423" positionY="135" width="128" height="88"/>
     </elements>
 </model>

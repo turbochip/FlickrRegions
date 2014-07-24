@@ -57,9 +57,37 @@
 {
     [super viewWillAppear:YES];
     NSManagedObjectContext *context=self.document.managedObjectContext;
-    [self updatePhotoCount:context];
 
+    [self updatePhotoCount:context];
 }
+
+- (void) updateNumberOfPicturesInRegion:(NSString *)rName onDocument:(UIManagedDocument *)doc
+{
+    NSManagedObjectContext *context =doc.managedObjectContext;
+        
+//    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Photographers"];
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Region"];
+    request.sortDescriptors = nil;
+    NSError *error;
+
+    request.predicate=[NSPredicate predicateWithFormat:@"regionName=%@", rName];
+    NSArray *objects = [context executeFetchRequest:request error:&error];
+    if (objects == nil) {
+        // Handle the error.
+        CCLog(@"Error fetching records to update photographer count");
+    }
+    NSInteger numPics=0;
+    for (Region *object in objects)
+    {
+        for(Location *loc in object.hasLocations) {
+            CCLog(@"loc=%@ - %d",loc, loc.hasPhotographers.count  );
+            numPics=numPics+loc.hasPhotographers.count;
+        }
+        object.countOfPictures=[NSNumber numberWithInteger:numPics];
+    }
+ 
+}
+
 
 -(void) updatePhotoCount:(NSManagedObjectContext *)context
 {
@@ -73,11 +101,14 @@
         CCLog(@"No Regions found");
     } else {
         for(Region *region in regionResults) {
+            [self updateNumberOfPicturesInRegion:region.regionName onDocument:self.document];
+/*
             NSInteger piccnt=0;
             for(Location *loc in region.hasLocations) {
                 piccnt=piccnt+[loc.pictureQty integerValue];
             }
-            region.countOfPictures=[NSNumber numberWithInteger:piccnt];
+ */
+//            region.countOfPictures=[NSNumber numberWithInteger:piccnt];
         }
     }
 }
@@ -129,26 +160,7 @@
     if((!regionResults) || (regionResults.count==0))
     {
         CCLog(@"Region %@ not found",self.regionName);
-    } else {
-/*
-        Region *rr=[regionResults objectAtIndex:0];
-        for(Location *loc in rr.hasLocations) {
-            CCLog(@"Location=%@",loc.locationName );
-            NSURL *url=[FlickrFetcher URLforPhotosInPlace:loc.locationID maxResults:100];
-                CCLog(@"in Queue (not really) about to query flickr");
-                NSData *jsonResults = [NSData dataWithContentsOfURL:url];
-                NSDictionary *photoResults = [NSJSONSerialization JSONObjectWithData:jsonResults options:0 error:NULL];
-                self.photos=[[photoResults valueForKeyPath:FLICKR_RESULTS_PHOTOS] mutableCopy];
-#warning Why are we going through pictures here
-            //CCLog(@"About to go through photos %@",self.photos);
-                for(NSDictionary *p in self.photos) {
-                    CCLog(@"Photo=%@",[p objectForKey:FLICKR_PHOTO_TITLE]);
-                    [Photo addPhoto:p onDocument:self.document];
-                }
-        }
- */
-    }
-
+    } 
 }
 
 @end
