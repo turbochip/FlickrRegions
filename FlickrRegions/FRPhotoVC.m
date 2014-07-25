@@ -56,7 +56,6 @@
     request.predicate=[NSPredicate predicateWithFormat:@"photoID=%@",self.transferPhoto.photoID];
     NSError *error;
     NSArray *regionResults = [context executeFetchRequest:request error:&error];
-    //CCLog(@"RegionResults=%@",regionResults);
     if((!regionResults) || (regionResults.count==0)) {
         CCLog(@"Error no photoDictionary found");
     } else {
@@ -64,7 +63,6 @@
         Photo *myP=[regionResults objectAtIndex:0];
         [History addHistory:myP onDocument:self.document];
         NSDictionary *myD=(NSDictionary *) [NSKeyedUnarchiver unarchiveObjectWithData:myP.photoDictionary ];
-        //CCLog(@"myD=%@",myD);
     
         NSURL *photoURL=[FlickrFetcher URLforPhoto:myD format:FlickrPhotoFormatLarge];
         CCLog(@"photoURL=%@",photoURL.path);
@@ -93,24 +91,5 @@
     self.imageView.image=image;
     self.scrollView.contentSize=self.image ? self.image.size :CGSizeZero ;
 }
-
-
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

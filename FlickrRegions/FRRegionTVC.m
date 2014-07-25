@@ -8,6 +8,7 @@
 #import "FRExtras.h"
 #import "FRRegionTVC.h"
 #import "Region.h"
+#import "Region+addon.h"
 #import "Location.h"
 #import "Photo.h"
 #import "Photo+addon.h"
@@ -65,7 +66,6 @@
 {
     NSManagedObjectContext *context =doc.managedObjectContext;
         
-//    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Photographers"];
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Region"];
     request.sortDescriptors = nil;
     NSError *error;
@@ -88,7 +88,6 @@
  
 }
 
-
 -(void) updatePhotoCount:(NSManagedObjectContext *)context
 {
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Region"];
@@ -102,15 +101,9 @@
     } else {
         for(Region *region in regionResults) {
             [self updateNumberOfPicturesInRegion:region.regionName onDocument:self.document];
-/*
-            NSInteger piccnt=0;
-            for(Location *loc in region.hasLocations) {
-                piccnt=piccnt+[loc.pictureQty integerValue];
-            }
- */
-//            region.countOfPictures=[NSNumber numberWithInteger:piccnt];
         }
     }
+    [Region regionCleanupOnDocument:self.document];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

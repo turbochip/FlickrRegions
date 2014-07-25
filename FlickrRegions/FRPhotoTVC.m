@@ -59,6 +59,35 @@
     Photo *p=[self.fetchedResultsController objectAtIndexPath:indexPath];
     cell.textLabel.text=p.title;
     cell.detailTextLabel.text=p.takenBy.name;
+    UIImageView *cellThumbnail=[[UIImageView alloc] initWithFrame:CGRectMake(15, 5, 35, 35)];
+    [cell addSubview:cellThumbnail];
+    if(p.thumbnail == nil) {
+        NSDictionary *myD=(NSDictionary *) [NSKeyedUnarchiver unarchiveObjectWithData:p.photoDictionary ];
+        
+        NSURL *photoURL=[FlickrFetcher URLforPhoto:myD format:FlickrPhotoFormatSquare];
+        CCLog(@"photoURL=%@",photoURL.path);
+        NSURLRequest *request = [NSURLRequest requestWithURL:photoURL];
+        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
+        NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
+        NSURLSessionDownloadTask *task = [session downloadTaskWithRequest:request
+                                                        completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
+                                                            if (!error) {
+                                                                if([request.URL isEqual:photoURL]) {
+                                                                    UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:location]];
+                                                                    dispatch_async(dispatch_get_main_queue(), ^{
+                                                                        cellThumbnail.image=image;
+                                                                        p.thumbnail=[NSKeyedArchiver archivedDataWithRootObject:image];
+                                                                    });
+                                                                }
+                                                            }
+                                                        }];
+        [task resume];
+    } else {
+        cellThumbnail.image=[NSKeyedUnarchiver unarchiveObjectWithData:p.thumbnail];
+    }
+
+    
+    
     return cell;
 }
 
@@ -80,7 +109,6 @@
     CCLog(@"Preparing for segue");
     if([segue.destinationViewController isKindOfClass:[FRPhotoVC class]]) {
         FRPhotoVC *dVC = segue.destinationViewController;
-        //CCLog(@"transferPhoto for picture=%@",self.transferPhoto);
         dVC.transferPhoto=self.transferPhoto;
         dVC.document=self.document;
     } else {
@@ -93,7 +121,5 @@
     }
 
 }
-
-
 
 @end

@@ -18,7 +18,6 @@
     NSManagedObjectContext *context=doc.managedObjectContext;
     NSString *lName=[d valueForKey:FLICKR_PLACE_WOE_NAME];
     CCLog(@"lName=%@",lName);
-    //CCLog(@"d=%@",d);
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Location"];
     request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"locationName" ascending:YES]];
     request.predicate=[NSPredicate predicateWithFormat:@"locationName=%@",lName];
@@ -49,7 +48,6 @@
     CCLog(@"locationID=%@",locationID);
     NSError *error;
     NSArray *locationResults = [context executeFetchRequest:request error:&error];
-    //CCLog(@"locationResults=%@",[locationResults objectAtIndex:0]);
     if((!locationResults) || (locationResults.count==0)) {
         CCLog(@"LocationID %@ does not exist",locationID);
         return nil;
@@ -60,7 +58,6 @@
 +(void) loadLocationsFromFlickrArray:(NSArray *)locations onDocument:(UIManagedDocument *) doc
 {
     CCLog(@"Loading location array");
-    //CCLog(@"locations=%@",locations);
     for(NSDictionary *location in locations) {
         [self addLocation:location onDocument:doc];
     }

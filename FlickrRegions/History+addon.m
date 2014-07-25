@@ -17,7 +17,6 @@
     History *hist;
     NSManagedObjectContext *context=doc.managedObjectContext;
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"History"];
-//    request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"hasPhotos" ascending:YES]];
     request.predicate=[NSPredicate predicateWithFormat:@"hasPhotos=%@",p];
     NSError *error;
     NSArray *historyResults = [context executeFetchRequest:request error:&error];
@@ -40,7 +39,6 @@
     NSManagedObjectContext *context=doc.managedObjectContext;
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"History"];
     request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timeViewed" ascending:YES]];
-//    request.predicate=[NSPredicate predicateWithFormat:@"hasPhotos=%@",p];
     NSError *error;
     NSArray *historyResults = [context executeFetchRequest:request error:&error];
     if((!historyResults) || (historyResults.count==0)) {

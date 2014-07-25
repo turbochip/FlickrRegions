@@ -50,16 +50,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
-    
-    // in here we are going to setup our database if it doesn't exist
-    // then we will kickoff a thread to bring in our flickrdata and populate our tables.
-    CCLog(@"In View Did load, about to start spinner");
-    
-//    [self openDatabase:@"FlickrRegions"];
 
 }
-
+/*
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if([segue.destinationViewController isKindOfClass:[FRRegionTVC class]])
@@ -74,5 +67,5 @@
         }
     }
 }
-
+*/
 @end

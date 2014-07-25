@@ -9,7 +9,7 @@
         <attribute name="locationName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="pictureQty" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <relationship name="hasPhotographers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Photographer" inverseName="tookPhotosInLocation" inverseEntity="Photographer" syncable="YES"/>
-        <relationship name="hasPhotosof" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Photo" inverseName="ofLocation" inverseEntity="Photo" syncable="YES"/>
+        <relationship name="hasPhotosof" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Photo" inverseName="ofLocation" inverseEntity="Photo" syncable="YES"/>
         <relationship name="isInRegion" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Region" inverseName="hasLocations" inverseEntity="Region" syncable="YES"/>
     </entity>
     <entity name="Photo" representedClassName="Photo" syncable="YES">
@@ -34,7 +34,7 @@
     <entity name="Region" representedClassName="Region" syncable="YES">
         <attribute name="countOfPictures" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="regionName" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="hasLocations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Location" inverseName="isInRegion" inverseEntity="Location" syncable="YES"/>
+        <relationship name="hasLocations" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Location" inverseName="isInRegion" inverseEntity="Location" syncable="YES"/>
     </entity>
     <elements>
         <element name="History" positionX="-227" positionY="-36" width="128" height="73"/>

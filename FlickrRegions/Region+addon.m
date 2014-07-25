@@ -10,6 +10,8 @@
 #import "FlickrFetcher.h"
 #import "Location.h"
 
+#define MAX_REGIONS 50
+
 @implementation Region (addon)
 
 +(Region *) addRegion:(NSDictionary *)d onDocument:(UIManagedDocument *)doc
@@ -44,35 +46,8 @@
     CCLog(@"region=%@",region);
     return region;
 }
+
 /*
-+(void) updateNumberOfPicturesInRegion: (NSString *)rName onDocument: (UIManagedDocument *)doc
-{
-    if(rName) {
-        NSManagedObjectContext *context=doc.managedObjectContext;
-        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Region"];
-        request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"regionName" ascending:YES]];
-        request.predicate=[NSPredicate predicateWithFormat:@"regionName=%@",rName];
-        NSError *error;
-        NSArray *regionResults = [context executeFetchRequest:request error:&error];
-        if((!regionResults) || (regionResults.count==0))
-        {
-            CCLog(@"Error region %@ does not exist!",rName);
-        } else {
-            Region *rr=regionResults[0];
-            NSInteger regionQty=0;
-            CCLog(@"Region     location     pictures     total");
-            for(Location *loc in rr.hasLocations) {
-                regionQty=regionQty+loc.pictureQty.integerValue;
-                CCLog(@"%d, %d, %@ - %@",loc.pictureQty.integerValue,regionQty,rName,loc.locationName);
-            }
-            rr.countOfPictures=[NSNumber numberWithInteger:regionQty];
-            [context save:NULL];
-
-        }
-    }
-}
- */
-
 + (void) updateNumberOfPicturesInRegion:(NSString *)rName onDocument:(UIManagedDocument *)doc
 {
     NSManagedObjectContext *context =doc.managedObjectContext;
@@ -87,7 +62,6 @@
     
     // Execute the fetch.
     NSError *error;
-    id requestedValue = nil;
     NSArray *objects = [context executeFetchRequest:request error:&error];
     if (objects == nil) {
         // Handle the error.
@@ -96,6 +70,7 @@
     CCLog(@"objects=%@",objects);
 
 }
+*/
 
 +(void) loadRegionsFromFlickrArray:(NSArray *)regions onDocument:(UIManagedDocument *) doc
 {
@@ -104,6 +79,36 @@
     for(NSDictionary *region in regions) {
         [self addRegion:region onDocument:doc];
     }
+}
+
++(void) regionCleanupOnDocument:(UIManagedDocument *)doc
+{
+    NSManagedObjectContext *context =doc.managedObjectContext;
+    
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Region"];
+    request.sortDescriptors=@[[NSSortDescriptor sortDescriptorWithKey:@"countOfPictures" ascending:YES]];
+    request.predicate=nil;
+    NSError *error=nil;
+    NSArray *regionResults = [context executeFetchRequest:request error:&error];
+    if((!regionResults) || (regionResults.count==0))
+    {
+        CCLog(@"No Regions Found");
+    } else {
+        CCLog(@"%d Regions found",regionResults.count);
+        if(regionResults.count>MAX_REGIONS) {
+            CCLog(@"Time to cleanup");
+            NSInteger deletedRegions=0;
+            while(regionResults.count-deletedRegions>MAX_REGIONS){
+                Region *regionToDelete=regionResults[deletedRegions];
+                CCLog(@"About to delete %@",regionToDelete.regionName);
+                [context deleteObject:regionToDelete];
+                deletedRegions++;
+            }
+        } else {
+            CCLog(@"We still have room");
+        }
+    }
+    [context save:NULL];
 }
 
 @end

@@ -42,11 +42,6 @@
     FRHistoryTVC *myFRHTVC=(FRHistoryTVC *)[self.tabBarController.viewControllers objectAtIndex:0];
     self.document=myFRHTVC.document;
 
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.history=[[History listHistoryonDocument:self.document] mutableCopy];
     self.tableView.delegate=self;
 }

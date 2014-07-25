@@ -86,14 +86,12 @@
         // open file
         [document openWithCompletionHandler:^(BOOL success) {
             if(success) {
-//                [self documentIsReady];
                 CCLog(@"Database exists and was opened");
             }
         }];
     } else { // create file and open it at the same time.
         [document saveToURL:self.url forSaveOperation:UIDocumentSaveForCreating completionHandler:^(BOOL success) {
             if(success)
-//                [self documentIsReady];
                 CCLog(@"New Database Opened");
             else
                 CCLog(@"Couldn't create document %@",self.url);
@@ -136,11 +134,12 @@
             if(![downloadTasks count]) {
                 CCLog(@"Starting download %@",location_ID);
                 NSURLSessionDownloadTask *task = [self.flickrPhotoDownloadSession downloadTaskWithURL:[FlickrFetcher URLforPhotosInPlace: location_ID
-                                                                                                                              maxResults:10]];
+                    maxResults:10]];
                 task.taskDescription=FLICKR_PHOTO_FETCH;
                 [task resume];
             } else {
-                for (NSURLSessionDownloadTask *task in downloadTasks) [task resume];
+                for (NSURLSessionDownloadTask *task in downloadTasks)
+                    [task resume];
             }
         }];
     }

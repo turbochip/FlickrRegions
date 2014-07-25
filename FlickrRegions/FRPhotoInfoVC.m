@@ -74,12 +74,13 @@
         NSURLRequest *request = [NSURLRequest requestWithURL:photoURL];
         NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
         NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
+
         NSURLSessionDownloadTask *task = [session downloadTaskWithRequest:request
                                                         completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
                                                             if (!error) {
                                                                 if([request.URL isEqual:photoURL]) {
                                                                     UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:location]];
-                                                                    dispatch_async(dispatch_get_main_queue(), ^{ self.image=image;});
+                                                                    dispatch_async(dispatch_get_main_queue(), ^{ self.imageView.image=image;});
                                                                 }
                                                             }
                                                         }];
@@ -110,16 +111,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
